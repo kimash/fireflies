@@ -11,26 +11,26 @@
 
 Firefly::Firefly()
 {
-    amp = 1.0;
-    freq = 1.0;
-    startY = 0.0;
+    drag = ofRandom(0.97, 0.99);
+    
+    noiseVal = ofRandom(-10000, 10000);
+    
+    velocity = ofVec3f(ofRandom(-3.9, 3.9), 3.0 * fabs(ofRandom(-3.9, 3.9)), 0);
+    
 }
 
-void Firefly::setup(ofVec3f pos_, float size_, float amp_, float freq_)
+void Firefly::update(ofVec3f& pos)
 {
-    pos = pos_;
-    size = ofVec3f(size_);
-    amp = amp_;
-    freq = freq_;
-    startY = pos.y;
-}
-
-void Firefly::update()
-{
-    pos.rotate(0.5, ofVec3f(0, 0, ofGetWidth()));
-//    pos.set(pos.x + 1, startY + amp*cos(TWO_PI * freq * pos.x), pos.z);
-//    
-//    if (pos.x > ofGetWidth()) {
-//        pos.set(0, startY + amp*cos(TWO_PI * freq * pos.x), pos.z);
-//    }
+    acceleration.x = ofSignedNoise(noiseVal, pos.y * 0.04) * 0.6;
+    
+    acceleration.y = ofSignedNoise(noiseVal, pos.x * 0.006, ofGetElapsedTimef()*0.2) * 0.09 + 0.18;
+    
+    velocity *= drag;
+    velocity += acceleration * 0.4;
+    
+    if(pos.y + velocity.y > ofGetHeight()){
+        pos.y -= ofGetHeight();
+    }
+    
+    pos += velocity;
 }

@@ -17,19 +17,14 @@ public:
     Firefly();
     ~Firefly(){}
     
-    void setup(ofVec3f pos_, float size_, float amp_, float freq_);
-    void update();
-    ofVec3f getPos() {return pos;}
-    ofVec3f getSize() {return size;}
-    
+    void update(ofVec3f& pos);
     
 protected:
-    ofVec3f pos;
-    ofVec3f size;
-    float amp;
-    float freq;
-    float startY;
+    ofVec3f velocity;
+    ofVec3f acceleration;
     
+    float drag;
+    float noiseVal;
 };
 
 #endif

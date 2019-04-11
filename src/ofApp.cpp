@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#define NUM_FLIES 700
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -6,22 +7,18 @@ void ofApp::setup(){
     ofSetFrameRate(60);
     ofSetVerticalSync(true);
     
-    // load the texure
     ofDisableArbTex();
     ofLoadImage(texture, "dot.png");
     
-    for(int i = 0; i < 200; i++ ) {
+    for(int i = 0; i < NUM_FLIES; i++) {
+        points.push_back(ofVec3f(ofRandomWidth(), ofRandomHeight(), ofRandomHeight()));
+        sizes.push_back(ofVec3f(ofRandom(10, 70)));
         Firefly f;
-        f.setup(ofVec3f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()), ofRandom(500)), ofRandom(10, 70), 30, PI/3);
         fireflies.push_back(f);
-        points.push_back(f.getPos());
-        sizes.push_back(f.getSize());
     }
     
-    // upload the data to the vbo
-    int total = (int)points.size();
-    vbo.setVertexData(&points[0], total, GL_STREAM_DRAW);
-    vbo.setNormalData(&sizes[0], total, GL_STREAM_DRAW);
+    vbo.setVertexData(&points[0], points.size(), GL_STREAM_DRAW);
+    vbo.setNormalData(&sizes[0], sizes.size(), GL_STREAM_DRAW);
     
     shader.load("shaders/shader");
 
@@ -29,9 +26,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    for(int i = 0; i < fireflies.size(); i++){
-        fireflies[i].update();
-        points[i].set(fireflies[i].getPos());
+    for(int i = 0; i < points.size(); i++){
+        fireflies[i].update(points[i]);
     }
     vbo.updateVertexData(&points[0], points.size());
 }
@@ -42,19 +38,12 @@ void ofApp::draw(){
     
     ofSetColor(200, 255, 90);
     
-    // this makes everything look glowy :)
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     ofEnablePointSprites();
     
-    // bind the shader and camera
-    // everything inside this function
-    // will be effected by the shader/camera
     shader.begin();
-    
-    // bind the texture so that when all the points
-    // are drawn they are replace with our dot image
     texture.bind();
-    vbo.draw(GL_POINTS, 0, (int)points.size());
+    vbo.draw(GL_POINTS, 0, points.size());
     texture.unbind();
     
     shader.end();
