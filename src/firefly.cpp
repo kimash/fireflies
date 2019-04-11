@@ -15,16 +15,16 @@ Firefly::Firefly()
 {
     drag = ofRandom(0.97, 0.99);
     
-    noiseVal = ofRandom(-10000, 10000);
+    noiseVal = ofRandom(-1000, 1000);
     
     velocity = ofVec3f(ofRandom(-MAX_SPEED, MAX_SPEED), ofRandom(MAX_SPEED), 0);
 }
 
 void Firefly::update(ofVec3f& pos)
 {
-    acceleration.x = ofSignedNoise(noiseVal, pos.y * 0.04) * 0.6;
+    acceleration.x = ofSignedNoise(noiseVal, pos.y * 0.04) * 0.4;
     
-    acceleration.y = ofSignedNoise(noiseVal, pos.x * 0.006) * 0.09 + 0.18;
+    acceleration.y = ofSignedNoise(noiseVal, pos.x * 0.006) * 0.05 + 0.15;
     
     velocity *= drag;
     velocity += acceleration * 0.4;

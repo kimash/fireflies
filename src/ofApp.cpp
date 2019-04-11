@@ -3,7 +3,6 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofBackground(0);
     ofSetFrameRate(60);
     ofSetVerticalSync(true);
     
@@ -34,6 +33,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofBackgroundGradient(ofColor(0), ofColor(3, 12, 66), OF_GRADIENT_LINEAR);
     glDepthMask(GL_FALSE);
     
     ofSetColor(200, 255, 90);
