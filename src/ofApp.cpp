@@ -1,5 +1,5 @@
 #include "ofApp.h"
-#define NUM_FLIES 700
+#define NUM_FLIES 600
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -12,7 +12,7 @@ void ofApp::setup(){
     
     for(int i = 0; i < NUM_FLIES; i++) {
         points.push_back(ofVec3f(ofRandomWidth(), ofRandomHeight(), ofRandomHeight()));
-        sizes.push_back(ofVec3f(ofRandom(10, 70)));
+        sizes.push_back(ofVec3f(ofRandom(10, 90)));
         Firefly f;
         fireflies.push_back(f);
     }
