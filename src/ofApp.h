@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "firefly.h"
+#include "ofxSyphon.h"
 
 class ofApp : public ofBaseApp{
 
@@ -29,4 +30,8 @@ class ofApp : public ofBaseApp{
         ofVbo vbo;
         ofShader shader;
         ofTexture texture;
+        ofFbo fbo;
+    
+        ofxSyphonServer server;
+//        ofxSyphonClient client;
 };

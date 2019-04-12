@@ -16,11 +16,19 @@ void ofApp::setup(){
         fireflies.push_back(f);
     }
     
+    // load data into VBO
     vbo.setVertexData(&points[0], points.size(), GL_STREAM_DRAW);
     vbo.setNormalData(&sizes[0], sizes.size(), GL_STREAM_DRAW);
     
     shader.load("shaders/shader");
-
+    
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    
+    // setup Syphon
+    ofSetWindowTitle("Fireflies");
+    server.setName("Fireflies output");
+//    client.setup();
+//    client.set("", "Simple Server");
 }
 
 //--------------------------------------------------------------
@@ -34,6 +42,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackgroundGradient(ofColor(0), ofColor(3, 12, 66), OF_GRADIENT_LINEAR);
+    fbo.begin();
+    ofClear(0);
     glDepthMask(GL_FALSE);
     
     ofSetColor(200, 255, 90);
@@ -45,13 +55,17 @@ void ofApp::draw(){
     texture.bind();
     vbo.draw(GL_POINTS, 0, points.size());
     texture.unbind();
-    
     shader.end();
     
     ofDisablePointSprites();
     ofDisableBlendMode();
     
     glDepthMask(GL_TRUE);
+    fbo.end();
+    fbo.draw(0, 0);
+    
+//    client.draw(50, 50);
+//    server.publishTexture(&fbo.getTexture());
 }
 
 //--------------------------------------------------------------
