@@ -30,8 +30,6 @@ class ofApp : public ofBaseApp{
         ofVbo vbo;
         ofShader shader;
         ofTexture texture;
-        ofFbo fbo;
     
         ofxSyphonServer server;
-//        ofxSyphonClient client;
 };
